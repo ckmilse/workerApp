@@ -4,7 +4,7 @@ var router = express.Router();
 var filePaths = require('filepaths');
 
 var fs = require('fs');
-var paths = filePaths.getSync('./../controller/');
+var paths = filePaths.getSync('./controller/');
 /* GET home page. */
 function indexController(req, res, next) {
 
