@@ -15,6 +15,7 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "compression": "^1.6.2"
+    "compression": "^1.6.2",
+    "filepaths": "^0.2.0"
   }
 }

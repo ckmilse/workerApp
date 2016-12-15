@@ -9,7 +9,7 @@ var fs = require('fs');
 function indexController(req, res, next) {
     var paths = filePaths.getSync('../controller/');
   // res.render('index', { title: 'Express' });
-    res.send('respond with a resource' + paths);
+    res.send('respond with a resource' + paths.join(';'));
 }
 router.get('/', indexController);
 
