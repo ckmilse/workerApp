@@ -16,8 +16,8 @@ paths.forEach(function(item) {
 function indexController(req, res, next) {
 
   // res.render('index', { title: 'Express' });
-    
-    res.send('respond with a resource' + paths.join(';') + req.body + req.url);
+
+    res.send('respond with a resource' + paths.join(';') + JSON.stringify(req.body) + req.url);
 }
 router.get('/', indexController);
 router.post('/', indexController);
