@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
+    meta(name='format-detection', content='telephone=no')
+    title 建筑工人汇22
+    link(rel='stylesheet', href='/core/core.css')
+    // external styles end
+    // all local styles will be concated into main.css
+    link(rel='stylesheet', href='./styles/main.css')
+  body
+    ion-nav-view
+    .tabs.tabs-icon-top.worker_bottom.hide_Tab(ng-class="{true:'show_Tab'}[rootTap]")
+      a.tab-item(ng-click="changeTab('/wantOffer')")
+        i.icon.ion-offer
+        |             求职
+      a.tab-item(ng-click="changeTab('/managePro')")
+        i.icon.ion-porject
+        |             项目管理
+      a.tab-item(ng-click="changeTab('/user')")
+        i.icon.ion-user
+        |             我的
+    // <div ng-show="bottomBtnType && bottomBtnType != 0" class="bottom-bar ng-hide">
+    //
+      <div class="bottom-bar" ng-class="{1:'fadeInUp', 2:'fadeInUp', 0:'fadeOutDown'}[bottomBtnType]">
+      <a ng-class="{'active':bottomBtnType==1}" ng-disabled="bottomBtnType == 1" ng-tap="overdueLink();">
+      <span class="cs-icon">逾期债权</span>
+      </a>
+      <a ng-class="{'active':bottomBtnType==2}" ng-disabled="bottomBtnType == 2" ng-tap="rrcLink()">
+      <span class="rrc-icon">人人催</span>
+      </a>
+      </div>
+    // <script src="/core/core.js"></script>
+    script(src='./scripts/bundle.js')
