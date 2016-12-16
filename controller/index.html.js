@@ -8,12 +8,26 @@ var router = express.Router();
 // });
 
 var fs = require('fs');
+var secretID = '1209b9499701608d720fab711898a4a6';
+var worker_http = require('./../service/httpService.js');
+var config = require('./../config/config.app.js');
 
 // var paths = filePaths.getSync('app/scripts/');
 module.exports = function(req, res, next) {
   // res.send('respond with a resource3333' + JSON.stringify(req.body));
   console.log(req);
-  res.render('indexWorker', { title: 'Express' , bodyString: JSON.stringify(req.query)} );
+  let code = req.query.code;
+  let url = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${config.appId}&secret=${config.secretID}&code=${code}&grant_type=authorization_code`;
+  worker_http.GET(url)
+    .then(function(resData) {
+        // JSON.parse(resData)
+        // res.render('indexWorker', { title: 'Express' , bodyString: JSON.stringify(resData)});
+        res.render('indexWorker', { title: 'Express' , bodyString: resData});
+    },function(e) {
+        console.log(e);
+        res.render('indexWorker', { title: 'Express' , bodyString: 'error' + JSON.stringify(e)});
+    });
+
 };
 
 // module.exports = function() {
