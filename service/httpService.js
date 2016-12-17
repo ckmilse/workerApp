@@ -14,16 +14,13 @@ module.exports = {
             chooseHttp.get(url,(res)=>{
                 let resData = "";
                 res.on("data",(data)=>{
-                    console.log(data);
                     resData += data
                 })
 
                 res.on("end",()=>{
-                    console.log(resData)
                     resolve(resData);
                 })
             }).on("error",(e)=>{
-                console.log(e);
                 reject(e);
             })
         });
