@@ -38,6 +38,9 @@ function refresh_SDK() {
                     global.worker_Conf.jsapi_ticket = resData.ticket;
                     var publicJson = getSign(global.worker_Conf.jsapi_ticket, 'http://www.whatsmax.com/index.html');
                     console.log(publicJson);
+                    if(publicJson.jsapi_ticket) {
+                        delete publicJson.jsapi_ticket;
+                    }
                     fs.writeFile( __dirname + '/../public/weixin_jsconfig.json', JSON.stringify(publicJson), 'utf8');
                 },function(e) {
                     console.log(e);
