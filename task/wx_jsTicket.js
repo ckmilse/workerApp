@@ -35,6 +35,7 @@ function refresh_SDK() {
                     if(typeof(resData) === 'string') {
                         resData = JSON.parse(resData);
                     }
+                    console.log(resData);
                     global.worker_Conf.jsapi_ticket = resData.ticket;
                     var publicJson = getSign(global.worker_Conf.jsapi_ticket, 'http://www.whatsmax.com/index.html');
                     console.log(publicJson);
