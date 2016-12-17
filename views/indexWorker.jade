@@ -11,7 +11,7 @@ html
     // all local styles will be concated into main.css
     link(rel='stylesheet', href='/styles/main.css')
   body
-    p Welcome to #{bodyString}
+    p #{bodyString}
     ion-nav-view
     .tabs.tabs-icon-top.worker_bottom.hide_Tab(ng-class="{true:'show_Tab'}[rootTap]")
       a.tab-item(ng-click="changeTab('/wantOffer')")

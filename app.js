@@ -8,6 +8,9 @@ var compression = require('compression');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+
+var wx_jsTicket_task = require('./task/wx_jsTicket.js');
+wx_jsTicket_task();
 var app = express();
 
 // view engine setup
