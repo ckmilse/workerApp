@@ -23,7 +23,7 @@ module.exports = function(req, res, next) {
   //     'Content-Type':'application/json;charset=UTF-8',
   //     'Access-Control-Allow-Origin': '*.whatsmax.com'
   // })
-    res.header('Access-Control-Allow-Origin', '*.whatsmax.com');
+    res.header('Access-Control-Allow-Origin', 'http://www.whatsmax.com');
     // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     // res.header('Access-Control-Allow-Headers', 'Content-Type');
     // res.header('Access-Control-Allow-Credentials','true');
