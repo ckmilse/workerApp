@@ -4,7 +4,7 @@
 var fs = require('fs');
 var workerHttp = require('./../service/httpService.js');
 var config = require('./../config/config.app.js');
-var getSign = require('./../service/wx_jsTicket_sing.js');
+var getSign = require('./../service/wx_jsTicket_sign.js');
 //用个临时全局变量
 global.worker_Conf = config;
 
@@ -14,8 +14,9 @@ function refresh_SDK() {
     console.log(getAccessTokenUrl);
     workerHttp.GET(getAccessTokenUrl)
         .then(function(resData) {
+                console.log(resData);
                 if(typeof(resData) === 'string') {
-                resData = JSON.parse(resData);
+                    resData = JSON.parse(resData);
                 }
 
                 // JSON.parse(resData)
@@ -25,11 +26,11 @@ function refresh_SDK() {
                 //       "expires_in": 7200
                 //   }
                 global.worker_Conf.access_token = resData.access_token;
+                console.log(resData);
                 return workerHttp.GET('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=' + global.worker_Conf.access_token + '&type=jsapi')
             },function(e) {
                 console.log(e);
-        })
-            .then(function(resData){
+        }).then(function(resData){
                 //   res.render('indexWorker', { title: 'Express' , bodyString: 'error' + JSON.stringify(e)});
                     if(typeof(resData) === 'string') {
                         resData = JSON.parse(resData);
@@ -37,20 +38,32 @@ function refresh_SDK() {
                     global.worker_Conf.jsapi_ticket = resData.ticket;
                     var publicJson = getSign(global.worker_Conf.jsapi_ticket, 'http://www.whatsmax.com/index.html');
                     console.log(publicJson);
-                    fs.writeFile( '../public/weixin_jsconfig.json', publicJson, 'utf8');
+                    fs.writeFile( __dirname + '/../public/weixin_jsconfig.json', JSON.stringify(publicJson), 'utf8');
                 },function(e) {
-
+                    console.log(e);
             });
       ;
 }
 
 
 function access_token_sche() {
-    var rule = new schedule.RecurrenceRule();
-    　　rule.minute = 90;
-　　var j = schedule.scheduleJob(rule, function(){
-　　　　refresh_SDK()
-　　});
+//     var rule = new schedule.RecurrenceRule();
+//     　　rule.minute = 1;
+//     console.log('及时');
+// 　　var j = schedule.scheduleJob(rule, function(){
+//         console.log('begint/n');
+// 　　　　refresh_SDK()
+// 　　});
+    // setTimeout(function() {
+    //     refresh_SDK()
+    // }, 3600 * 1000 * 1);
+    setTimeout(function() {
+        refresh_SDK();
+        access_token_sche();
+    }, 1000 * 60 * 90 * 1);
 }
 
-module.exports = access_token_sche;
+module.exports = function() {
+    refresh_SDK();
+    access_token_sche();
+}

@@ -8,12 +8,13 @@ const http = require("http");
 const https = require('https');
 module.exports = {
     GET: function(url) {
-        console.log(url);
+        // console.log(url);
         let chooseHttp = url.indexOf('https') > -1 ?  https : http;
         return new Promise(function(resolve, reject) {
             chooseHttp.get(url,(res)=>{
                 let resData = "";
                 res.on("data",(data)=>{
+                    console.log(data);
                     resData += data
                 })
 
@@ -22,6 +23,7 @@ module.exports = {
                     resolve(resData);
                 })
             }).on("error",(e)=>{
+                console.log(e);
                 reject(e);
             })
         });
