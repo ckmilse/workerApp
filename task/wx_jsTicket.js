@@ -7,9 +7,27 @@ var getSign = require('./../service/wx_jsTicket_sign.js');
 //用个临时全局变量
 global.worker_Conf = config;
 
+global.worker_Conf.getAccessTokenBaseurl = 'https://api.weixin.qq.com/cgi-bin/token?';
+global.worker_Conf.getTicketurl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?';
+
+function jsonToUrl(obj) {
+    var arr = [];
+    var str = '';
+    for (var i in json) {
+        str = i + '=' + json[i];
+        arr.push(str);
+    }
+    return arr.join('&');
+
+}
+
 function refresh_SDK() {
-    var getAccessTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential' +
-        '&appid=' + global.worker_Conf.appId + '&secret=' + global.worker_Conf.secretID;
+    var getAccessTokenUrl = global.worker_Conf.getAccessTokenBaseurl + jsonToUrl({
+        grant_type: 'client_credential',
+        appid: global.worker_Conf.appId,
+        secret: global.worker_Conf.secretID
+    });
+    // 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential' + '&appid=' + global.worker_Conf.appId + '&secret=' + global.worker_Conf.secretID;
     console.log(getAccessTokenUrl);
     workerHttp.GET(getAccessTokenUrl)
         .then(function(resData) {
@@ -17,7 +35,6 @@ function refresh_SDK() {
             if (typeof(resData) === 'string') {
                 resData = JSON.parse(resData);
             }
-
             // JSON.parse(resData)
             // res.render('indexWorker', { title: 'Express' , bodyString: JSON.stringify(resData)});
             //   {
@@ -26,7 +43,10 @@ function refresh_SDK() {
             //   }
             global.worker_Conf.access_token = resData.access_token;
             console.log(resData);
-            return workerHttp.GET('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=' + global.worker_Conf.access_token + '&type=jsapi')
+            return workerHttp.GET(global.worker_Conf.getTicketurl + jsonToUrl({
+                access_token: global.worker_Conf.access_token,
+                type: 'jsapi'
+            }))
         }, function(e) {
             console.log(e);
         }).then(function(resData) {
